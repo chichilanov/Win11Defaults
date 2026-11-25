@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Win11 Defaults Manager v2.2 — Руководство пользователя</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b7280;
+    --accent: #0067c0;
+    --accent-hover: #005ba1;
+    --border: #e5e7eb;
+    --code-bg: #f6f8fa;
+    --code-border: #e5e7eb;
+    --success: #0f7b0f;
+    --danger: #a80000;
+    --warning: #b8860b;
+    --info: #5b5bd6;
+    --block-bg: #f9fafb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+  }
+  header {
+    background: linear-gradient(135deg, #0067c0 0%, #005ba1 100%);
+    color: #fff;
+    padding: 40px 20px;
+    border-bottom: 4px solid #004578;
+  }
+  header .container { max-width: 1000px; margin: 0 auto; }
+  header h1 { margin: 0 0 8px; font-size: 32px; font-weight: 600; }
+  header .subtitle { font-size: 16px; opacity: 0.9; margin: 0; }
+  header .version {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+  main { padding: 30px 0 60px; }
+
+  /* Оглавление */
+  nav.toc {
+    background: var(--block-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+  nav.toc h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 20px;
+  }
+  nav.toc li { margin: 4px 0; }
+  nav.toc a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  /* Заголовки */
+  h1, h2, h3, h4 { color: var(--fg); font-weight: 600; }
+  h2 {
+    font-size: 24px;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+    margin-top: 40px;
+  }
+  h3 { font-size: 18px; margin-top: 28px; color: var(--accent); }
+  h4 { font-size: 16px; margin-top: 20px; }
+
+  /* Текст */
+  p { margin: 10px 0; }
+  strong { color: #000; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Списки */
+  ul, ol { margin: 10px 0; padding-left: 24px; }
+  li { margin: 4px 0; }
+
+  /* Таблицы */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: #fff;
+    box-shadow: var(--shadow);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  th {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafbfc; }
+
+  /* Блоки кода */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 14px 0;
+  }
+  code {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13.5px;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--code-border);
+  }
+  pre code { background: none; border: none; padding: 0; }
+
+  /* Инфоблоки */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: #f0f7ff;
+    padding: 12px 18px;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  .callout.success { border-color: var(--success); background: #f0faf0; }
+  .callout.danger  { border-color: var(--danger);  background: #fff0f0; }
+  .callout.warning { border-color: var(--warning); background: #fffaf0; }
+  .callout.info    { border-color: var(--info);    background: #f5f5ff; }
+  .callout-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--accent);
+  }
+  .callout.success .callout-title { color: var(--success); }
+  .callout.danger .callout-title  { color: var(--danger); }
+  .callout.warning .callout-title { color: var(--warning); }
+  .callout.info .callout-title    { color: var(--info); }
+
+  /* Статус-бейджи */
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .badge.ok     { background: var(--success); }
+  .badge.err    { background: var(--danger); }
+  .badge.warn   { background: var(--warning); }
+  .badge.info   { background: var(--info); }
+
+  /* Чек-лист */
+  .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
+  .checklist li {
+    padding: 6px 0 6px 28px;
+    position: relative;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 4px;
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  /* Футер */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    background: var(--block-bg);
+  }
+
+  /* Печать */
+  @media print {
+    header { background: #0067c0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    nav.toc { page-break-inside: avoid; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+    pre, table { page-break-inside: avoid; }
+    a { color: #000; text-decoration: underline; }
+  }
+
+  @media (max-width: 700px) {
+    header h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    table { font-size: 13px; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Win11 Defaults Manager</h1>
+    <p class="subtitle">Возвращает в Windows 11 функцию «По умолчанию» для всех расширений приложения + управление UCPD.sys + пакетное развёртывание</p>
+    <span class="version">Версия 2.2 · 25.11.2026</span>
+  </div>
+</header>
+
+<div class="container">
+<main>
+
+<nav class="toc">
+  <h2>📑 Оглавление</h2>
+  <ol>
+    <li><a href="#intro">Введение</a></li>
+    <li><a href="#quickstart">Быстрый старт</a></li>
+    <li><a href="#interface">Интерфейс программы</a></li>
+    <li><a href="#engines">Два движка применения ассоциаций</a></li>
+    <li><a href="#ucpd">Управление UCPD.sys</a></li>
+    <li><a href="#cli">Пакетный режим (CLI)</a></li>
+    <li><a href="#deploy">Сценарии развёртывания</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#appendix-a">Приложение А: Структура JSON-профиля</a></li>
+    <li><a href="#appendix-b">Приложение Б: Командная шпаргалка</a></li>
+    <li><a href="#appendix-c">Приложение В: Полезные ссылки</a></li>
+  </ol>
+</nav>
+
+<section id="intro">
+  <h2>1. Введение</h2>
+  <p><strong>Win11 Defaults Manager</strong> — утилита для Windows 10/11, которая возвращает недостающую функцию: возможность назначить приложение «по умолчанию» для <strong>всех</strong> поддерживаемых расширений и протоколов одной кнопкой.</p>
+
+  <h3>Что умеет программа</h3>
+  <ul>
+    <li><strong>Массовая установка ассоциаций</strong> — одной кнопкой назначает приложению все его расширения (в Windows 11 это приходится делать вручную для каждого формата)</li>
+    <li><strong>Управление UCPD.sys</strong> — отключает/включает защитный драйвер Microsoft, блокирующий изменение ассоциаций</li>
+    <li><strong>Два метода применения</strong>: мгновенный (SetUserFTA) и официальный (политика Microsoft)</li>
+    <li><strong>Пакетное развёртывание</strong> — экспорт/импорт профилей в JSON для применения на множестве ПК</li>
+    <li><strong>Цветовая индикация</strong> — сразу видно, что уже настроено, а что нет</li>
+  </ul>
+
+  <h3>Для кого эта программа</h3>
+  <ul>
+    <li><strong>Домашние пользователи</strong> — быстро настроить ассоциации после установки Windows</li>
+    <li><strong>Системные администраторы</strong> — массовое развёртывание одинаковых настроек на парке ПК</li>
+    <li><strong>IT-специалисты</strong> — тонкая настройка ассоциаций без редактирования реестра вручную</li>
+  </ul>
+</section>
+
+<section id="quickstart">
+  <h2>2. Быстрый старт</h2>
+
+  <h3>Для домашнего пользователя (5 минут)</h3>
+  <ol>
+    <li><strong>Запустите</strong> <code>Win11Defaults.exe</code> (двойной клик)</li>
+    <li>Перейдите на вкладку <strong>«UCPD.sys»</strong> → нажмите <strong>«Отключить UCPD»</strong> → согласитесь на перезагрузку</li>
+    <li>После перезагрузки снова откройте программу, перейдите на вкладку <strong>«Приложения»</strong></li>
+    <li>Выберите нужную программу слева (например, <em>WinRAR</em>, <em>AIMP</em>, <em>Firefox</em>)</li>
+    <li>Нажмите большую синюю кнопку <strong>«По умолчанию»</strong></li>
+    <li>Готово! Все расширения этого приложения назначены</li>
+    <li>(Опционально) Вернитесь на вкладку UCPD.sys → <strong>«Восстановить UCPD»</strong> → перезагрузка</li>
+  </ol>
+
+  <h3>Для администратора (пакетное развёртывание)</h3>
+  <ol>
+    <li>Настройте ассоциации на эталонном ПК через GUI</li>
+    <li>Экспортируйте профиль: кнопка <strong>«Экспорт профиля...»</strong> → сохраните <code>profile.json</code></li>
+    <li>Скопируйте папку с <code>Win11DefaultsCLI.exe</code> и <code>profile.json</code> на целевые ПК</li>
+    <li>Запустите из командной строки:
+<pre><code>Win11DefaultsCLI.exe --disable-ucpd --reboot
+:: после перезагрузки
+Win11DefaultsCLI.exe
+Win11DefaultsCLI.exe --enable-ucpd --reboot</code></pre>
+    </li>
+  </ol>
+</section>
+
+<section id="interface">
+  <h2>3. Интерфейс программы</h2>
+
+  <h3>Вкладка «Приложения»</h3>
+  <p>Основная рабочая вкладка. Интерфейс разделён на две части:</p>
+
+  <h4>Левая панель — список приложений</h4>
+  <ul>
+    <li>Отображает все установленные программы, зарегистрировавшие ассоциации файлов</li>
+    <li>В скобках указано количество расширений/протоколов</li>
+    <li>Поле поиска для фильтрации списка</li>
+    <li>Кнопка «Обновить список» для повторного сканирования реестра</li>
+  </ul>
+
+  <h4>Правая панель — детали выбранного приложения</h4>
+  <ul>
+    <li>Название приложения и путь к исполняемому файлу</li>
+    <li>Выбор движка (SetUserFTA или политика)</li>
+    <li>Чекбокс «Включать протоколы» (http, https, mailto и т.д.)</li>
+    <li>Кнопки управления:
+      <ul>
+        <li><strong>«По умолчанию»</strong> — назначить все расширения сразу</li>
+        <li><strong>«Применить отмеченные»</strong> — только выбранные галочками</li>
+        <li><strong>«Отметить все» / «Снять все»</strong> — массовое выделение</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>Таблица расширений</h4>
+  <table>
+    <thead>
+      <tr><th>Колонка</th><th>Описание</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>+/-</code></td><td>Галочка применения</td></tr>
+      <tr><td>Расширение / протокол</td><td><code>.mp3</code>, <code>.pdf</code>, <code>https</code> и т.д.</td></tr>
+      <tr><td>Текущая программа</td><td>Что сейчас назначено (зелёным если совпадает с целевым)</td></tr>
+      <tr><td>ProgID (цель)</td><td>Какой ProgID будет записан</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Цветовая индикация в таблице</h4>
+  <ul>
+    <li><span class="badge ok">Зелёный</span> — программа уже назначена по умолчанию для этого расширения</li>
+    <li><span class="badge info">Синий</span> — это протокол (http, mailto), а не расширение файла</li>
+    <li>⚫ <strong>Чёрный</strong> — расширение ещё не назначено этому приложению</li>
+  </ul>
+
+  <h4>Кнопки профиля</h4>
+  <ul>
+    <li><strong>«Экспорт профиля...»</strong> — сохранить текущие ассоциации в JSON</li>
+    <li><strong>«Импорт профиля...»</strong> — загрузить и применить JSON-профиль</li>
+  </ul>
+
+  <hr>
+
+  <h3>Вкладка «UCPD.sys»</h3>
+  <p>Управление защитным драйвером Microsoft.</p>
+
+  <h4>Статус UCPD (цветовая индикация)</h4>
+  <ul>
+    <li><span class="badge ok">Зелёный</span>: «ОТКЛЮЧЁН — готов к работе (SetUserFTA работает)»
+      <br><small>Start: 4, драйвер не запущен</small></li>
+    <li><span class="badge err">Красный</span>: «АКТИВЕН — блокирует SetUserFTA (нужно отключить)»
+      <br><small>Start: 3, драйвер запущен</small></li>
+    <li><span class="badge warn">Оранжевый</span>: «ПРОМЕЖУТОЧНОЕ СОСТОЯНИЕ — проверьте настройки»
+      <br><small>Нестандартная конфигурация</small></li>
+  </ul>
+
+  <h4>Статус политики</h4>
+  <ul>
+    <li><span class="badge ok">Зелёный</span>: «не задана (ручной выбор не перекрывается)»</li>
+    <li><span class="badge info">Синий</span>: «ЗАДАНА (перекрывает ручной выбор при каждом входе)»</li>
+  </ul>
+
+  <h4>Кнопки управления</h4>
+  <table>
+    <thead><tr><th>Кнопка</th><th>Действие</th></tr></thead>
+    <tbody>
+      <tr><td>Отключить UCPD</td><td>Устанавливает Start: 4, отключает задачу UCPD velocity</td></tr>
+      <tr><td>Восстановить UCPD</td><td>Возвращает исходное значение Start (обычно 3)</td></tr>
+      <tr><td>Обновить статус</td><td>Перечитать состояние из реестра</td></tr>
+      <tr><td>Перезагрузить ПК</td><td>Немедленная перезагрузка (требуется после изменения UCPD)</td></tr>
+      <tr><td>Снять политику ассоциаций</td><td>Удалить запись политики из реестра</td></tr>
+      <tr><td>Открыть XML</td><td>Открыть файл политики в блокноте</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Что такое значения Start?</h4>
+  <p>Start — это режим запуска драйвера Windows (аналогично services.msc):</p>
+  <table>
+    <thead><tr><th>Значение</th><th>Название</th><th>Описание</th></tr></thead>
+    <tbody>
+      <tr><td><strong>0</strong></td><td>Boot</td><td>Загружается при загрузке ядра Windows</td></tr>
+      <tr><td><strong>1</strong></td><td>System</td><td>Загружается при загрузке системы</td></tr>
+      <tr><td><strong>2</strong></td><td>Automatic</td><td>Запускается автоматически при загрузке Windows</td></tr>
+      <tr><td><strong>3</strong></td><td>Manual</td><td>Запускается вручную <span class="badge info">ПО УМОЛЧАНИЮ для UCPD</span></td></tr>
+      <tr><td><strong>4</strong></td><td>Disabled</td><td>Отключён, не запускается <span class="badge ok">НУЖНО для работы SetUserFTA</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout info">
+    <div class="callout-title">💡 Нормальное состояние Windows</div>
+    Start: 3 (Manual), драйвер запущен. Для работы программы нужно: Start: 4 (Disabled), драйвер не запущен.
+  </div>
+
+  <hr>
+
+  <h3>Вкладка «Журнал»</h3>
+  <p>Лог всех операций программы: сканирование реестра, применение ассоциаций, изменение UCPD, ошибки и предупреждения.</p>
+  <ul>
+    <li><strong>«Сохранить журнал...»</strong> — экспортировать в текстовый файл</li>
+    <li><strong>«Очистить»</strong> — очистить экран</li>
+  </ul>
+
+  <hr>
+
+  <h3>Вкладка «Справка»</h3>
+  <p>Текстовая справка с описанием всех функций (дублирует содержимое этого документа в сжатом виде).</p>
+</section>
+
+<section id="engines">
+  <h2>4. Два движка применения ассоциаций</h2>
+  <p>Программа использует два независимых метода записи ассоциаций. Выбор движка осуществляется в выпадающем списке на вкладке «Приложения».</p>
+
+  <h3>Движок №1: SetUserFTA (мгновенный)</h3>
+
+  <h4>Как работает</h4>
+  <p>Записывает в реестр пользователя (<code>HKCU\...\FileExts\.ext\UserChoice</code>) корректный <code>ProgId</code> вместе с криптографическим хэшем. Хэш вычисляется по формуле Microsoft (SID пользователя + расширение + ProgID + время записи). Без правильного хэша Windows игнорирует запись.</p>
+
+  <h4>Требования</h4>
+  <ul>
+    <li>UCPD.sys <strong>должен быть отключён</strong> (иначе драйвер заблокирует запись)</li>
+    <li>Файл <code>SetUserFTA.exe</code> (встроен в собранный exe при компиляции)</li>
+  </ul>
+
+  <h4>Плюсы и минусы</h4>
+  <table>
+    <thead><tr><th>✅ Плюсы</th><th>❌ Минусы</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Работает мгновенно, без перезагрузки</td>
+        <td>Требует отключения UCPD (снижает защиту системы)</td>
+      </tr>
+      <tr>
+        <td>Не перекрывает ручной выбор пользователя в будущем</td>
+        <td>Обновления Windows могут вернуть UCPD</td>
+      </tr>
+      <tr>
+        <td>Не оставляет следов в системе</td>
+        <td>Нужно один раз перезагрузиться после отключения UCPD</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Движок №2: Политика DefaultAssociationsConfiguration (официальный)</h3>
+
+  <h4>Как работает</h4>
+  <p>Создаёт XML-файл со списком ассоциаций и прописывает путь к нему в групповую политику: <code>HKLM\SOFTWARE\Policies\Microsoft\Windows\System\DefaultAssociationsConfiguration</code>. Windows применяет этот XML при каждом входе пользователя в систему.</p>
+
+  <h4>Требования</h4>
+  <ul>
+    <li>Права администратора (запись в HKLM)</li>
+    <li>UCPD отключать <strong>не нужно</strong></li>
+  </ul>
+
+  <h4>Плюсы и минусы</h4>
+  <table>
+    <thead><tr><th>✅ Плюсы</th><th>❌ Минусы</th></tr></thead>
+    <tbody>
+      <tr><td>Официальный механизм Microsoft</td><td>Применяется только после выхода и входа в систему</td></tr>
+      <tr><td>Не требует отключения UCPD</td><td><strong>Жёстко перекрывает ручной выбор пользователя</strong></td></tr>
+      <tr><td>Живучий — переприменяется при каждом входе</td><td>Оставляет файл <code>C:\ProgramData\Win11DefaultsManager\DefaultAssociations.xml</code></td></tr>
+      <tr><td>Работает для всех пользователей на ПК</td><td>Требует прав администратора</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Сравнительная таблица</h3>
+  <table>
+    <thead><tr><th>Характеристика</th><th>SetUserFTA</th><th>Политика</th></tr></thead>
+    <tbody>
+      <tr><td>Скорость применения</td><td>Мгновенно</td><td>После входа в систему</td></tr>
+      <tr><td>Требует отключения UCPD</td><td>Да</td><td>Нет</td></tr>
+      <tr><td>Требует прав админа</td><td>Нет (для HKCU)</td><td>Да (для HKLM)</td></tr>
+      <tr><td>Перекрывает ручной выбор</td><td>Нет</td><td>Да</td></tr>
+      <tr><td>Живучесть</td><td>До следующего изменения</td><td>При каждом входе</td></tr>
+      <tr><td>Следы в системе</td><td>Нет</td><td>XML + запись в HKLM</td></tr>
+      <tr><td>Официальность Microsoft</td><td>Неофициально</td><td>Официально</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ucpd">
+  <h2>5. Управление UCPD.sys</h2>
+
+  <h3>Что такое UCPD.sys?</h3>
+  <p><strong>UCPD (User Choice Protection Driver)</strong> — защитный драйвер Microsoft, встроенный в Windows 10/11. Его единственная задача: <strong>не дать программам менять ассоциации файлов без ведома пользователя</strong>.</p>
+  <p>Драйвер появился после того, как многие программы (особенно браузеры и медиаплееры) начали агрессивно перехватывать ассоциации при установке.</p>
+
+  <h3>Как работает UCPD?</h3>
+  <ol>
+    <li>Программа пытается записать в <code>HKCU\...\FileExts\.ext\UserChoice</code> новый ProgID</li>
+    <li>UCPD перехватывает операцию записи</li>
+    <li>Драйвер проверяет, инициировано ли изменение пользователем через стандартный диалог Windows</li>
+    <li>Если нет — запись блокируется или сбрасывается</li>
+  </ol>
+
+  <h3>Состояния UCPD</h3>
+  <table>
+    <thead><tr><th>Состояние</th><th>Защита</th><th>SetUserFTA</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="badge err">АКТИВЕН</span> (по умолчанию)</td>
+        <td>✅ Включена</td>
+        <td>❌ Не работает</td>
+      </tr>
+      <tr>
+        <td><span class="badge ok">ОТКЛЮЧЁН</span></td>
+        <td>⚠️ Снята</td>
+        <td>✅ Работает мгновенно</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Как отключить UCPD?</h3>
+  <p><strong>Через GUI:</strong> Вкладка «UCPD.sys» → кнопка «Отключить UCPD» → подтвердить → перезагрузить ПК.</p>
+  <p><strong>Через CLI:</strong></p>
+<pre><code>Win11DefaultsCLI.exe --disable-ucpd --reboot</code></pre>
+
+  <h4>Что происходит при отключении</h4>
+  <ol>
+    <li><code>HKLM\SYSTEM\CurrentControlSet\Services\UCPD\Start</code> → 4 (Disabled)</li>
+    <li>Отключается задача <code>\Microsoft\Windows\AppxDeploymentClient\UCPD velocity</code></li>
+    <li>Создаётся резервная копия ветки реестра в <code>%APPDATA%\Win11DefaultsManager\</code></li>
+  </ol>
+
+  <h3>Как восстановить UCPD?</h3>
+<pre><code>Win11DefaultsCLI.exe --enable-ucpd --reboot</code></pre>
+  <div class="callout success">
+    <div class="callout-title">✅ Важно</div>
+    После восстановления UCPD ваши ассоциации <strong>останутся</strong> (они уже записаны с правильным хэшем). UCPD просто не даст их изменить без вашего ведома.
+  </div>
+
+  <h3>Что если задача UCPD velocity не отключается?</h3>
+  <p>Иногда задача защищена и не отключается даже от имени администратора. Решение:</p>
+  <ol>
+    <li>Скачайте PsExec с сайта Microsoft Sysinternals</li>
+    <li>Запустите командную строку от имени SYSTEM:
+<pre><code>psexec -s -i powershell</code></pre>
+    </li>
+    <li>В открывшемся окне PowerShell выполните:
+<pre><code>Disable-ScheduledTask -TaskPath '\Microsoft\Windows\AppxDeploymentClient\' `
+  -TaskName 'UCPD velocity'</code></pre>
+    </li>
+  </ol>
+</section>
+
+<section id="cli">
+  <h2>6. Пакетный режим (CLI)</h2>
+  <p>Пакетный режим предназначен для автоматического применения настроек без графического интерфейса. Идеально для развёртывания на множестве ПК.</p>
+
+  <h3>Сборка CLI-версии</h3>
+  <p>Для пакетного режима нужна версия <strong>с консольным окном</strong> (чтобы видеть вывод):</p>
+<pre><code>pyinstaller -F --uac-admin --add-data "SetUserFTA.exe;." ^
+            --name Win11DefaultsCLI win11_defaults.py</code></pre>
+  <p>Ключ <code>-F</code> создаёт один exe-файл, <code>--add-data</code> встраивает SetUserFTA.exe внутрь.</p>
+
+  <div class="callout info">
+    <div class="callout-title">📦 Результат сборки</div>
+    <ul style="margin:6px 0">
+      <li><code>Win11Defaults.exe</code> — GUI-версия (без консоли, для двойного клика)</li>
+      <li><code>Win11DefaultsCLI.exe</code> — CLI-версия (с консолью, для командной строки)</li>
+    </ul>
+  </div>
+
+  <h3>Ключи командной строки</h3>
+  <table>
+    <thead><tr><th>Ключ</th><th>Описание</th><th>Админ</th></tr></thead>
+    <tbody>
+      <tr><td><code>--help</code></td><td>Показать справку</td><td>Нет</td></tr>
+      <tr><td><code>--export [файл]</code></td><td>Экспортировать текущие ассоциации в JSON</td><td>Нет</td></tr>
+      <tr><td><code>--apply [файл]</code></td><td>Применить JSON-профиль</td><td>Зависит от движка</td></tr>
+      <tr><td><code>--engine sufta</code></td><td>Использовать SetUserFTA (по умолчанию)</td><td>Нет (для HKCU)</td></tr>
+      <tr><td><code>--engine policy</code></td><td>Использовать официальную политику Microsoft</td><td>Да</td></tr>
+      <tr><td><code>--disable-ucpd</code></td><td>Отключить UCPD.sys</td><td>Да</td></tr>
+      <tr><td><code>--enable-ucpd</code></td><td>Восстановить UCPD.sys</td><td>Да</td></tr>
+      <tr><td><code>--disable-policy</code></td><td>Снять политику DefaultAssociationsConfiguration</td><td>Да</td></tr>
+      <tr><td><code>--reboot</code></td><td>Перезагрузить ПК после выполнения команд</td><td>Да</td></tr>
+      <tr><td><code>--sufta PATH</code></td><td>Указать путь к SetUserFTA.exe (сохраняется в конфиг)</td><td>Нет</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Автопоиск profile.json</h3>
+  <p>Если ключ <code>--apply</code> указан без аргумента или не указан вовсе, программа ищет файл <code>profile.json</code> <strong>в той же папке, где лежит exe</strong>:</p>
+<pre><code># Эти команды эквивалентны:
+Win11DefaultsCLI.exe --apply
+Win11DefaultsCLI.exe --apply profile.json
+Win11DefaultsCLI.exe</code></pre>
+
+  <h3>Примеры команд</h3>
+  <h4>Экспорт профиля</h4>
+<pre><code># Сохранить в текущую папку
+Win11DefaultsCLI.exe --export profile.json
+
+# Сохранить в конкретное место
+Win11DefaultsCLI.exe --export C:\share\profile.json</code></pre>
+
+  <h4>Применение профиля</h4>
+<pre><code># Применить profile.json из папки программы (SetUserFTA)
+Win11DefaultsCLI.exe
+
+# Явно указать файл
+Win11DefaultsCLI.exe --apply profile.json
+
+# Через политику
+Win11DefaultsCLI.exe --apply profile.json --engine policy</code></pre>
+
+  <h4>Управление UCPD</h4>
+<pre><code># Отключить и перезагрузить
+Win11DefaultsCLI.exe --disable-ucpd --reboot
+
+# Восстановить
+Win11DefaultsCLI.exe --enable-ucpd --reboot
+
+# Только отключить (без перезагрузки)
+Win11DefaultsCLI.exe --disable-ucpd</code></pre>
+</section>
+
+<section id="deploy">
+  <h2>7. Сценарии развёртывания</h2>
+
+  <h3>Сценарий 1: Настройка своего ПК (домашнее использование)</h3>
+  <p><strong>Цель:</strong> Быстро настроить ассоциации для всех установленных программ.</p>
+  <ol>
+    <li>Запустите <code>Win11Defaults.exe</code></li>
+    <li>Вкладка <strong>UCPD.sys</strong> → <strong>«Отключить UCPD»</strong> → перезагрузка</li>
+    <li>После перезагрузки откройте программу снова</li>
+    <li>Вкладка <strong>Приложения</strong> → выберите программу → <strong>«По умолчанию»</strong></li>
+    <li>Повторите для всех нужных программ</li>
+    <li>(Опционально) Вкладка <strong>UCPD.sys</strong> → <strong>«Восстановить UCPD»</strong> → перезагрузка</li>
+  </ol>
+  <p><strong>Время:</strong> 5–10 минут</p>
+
+  <hr>
+
+  <h3>Сценарий 2: Развёртывание на 10–50 ПК (малый бизнес)</h3>
+  <p><strong>Цель:</strong> Одинаковые ассоциации на всех рабочих станциях.</p>
+
+  <h4>Подготовка (на эталонном ПК)</h4>
+  <ol>
+    <li>Установите все нужные программы</li>
+    <li>Настройте ассоциации через GUI</li>
+    <li>Экспортируйте профиль: <strong>«Экспорт профиля...»</strong> → <code>profile.json</code></li>
+    <li>Скопируйте <code>Win11DefaultsCLI.exe</code> и <code>profile.json</code> на флешку/сетевую шару</li>
+  </ol>
+
+  <h4>Развёртывание (на каждом ПК)</h4>
+  <p><strong>Вариант А — через SetUserFTA (рекомендуется):</strong></p>
+<pre><code># Шаг 1. Отключить UCPD (требует перезагрузки)
+\\server\share\Win11DefaultsCLI.exe --disable-ucpd --reboot
+
+# Шаг 2. После перезагрузки применить профиль
+\\server\share\Win11DefaultsCLI.exe
+
+# Шаг 3. (Опционально) Восстановить UCPD
+\\server\share\Win11DefaultsCLI.exe --enable-ucpd --reboot</code></pre>
+
+  <p><strong>Вариант Б — через политику (быстрее, но перекрывает ручной выбор):</strong></p>
+<pre><code># Одна команда + перезагрузка
+\\server\share\Win11DefaultsCLI.exe --apply profile.json --engine policy
+shutdown /r /t 0</code></pre>
+
+  <p><strong>Время:</strong> 15–30 минут на ПК (включая перезагрузки)</p>
+
+  <hr>
+
+  <h3>Сценарий 3: Массовое развёртывание через GPO (крупная организация)</h3>
+  <p><strong>Цель:</strong> Автоматическое применение при загрузке ПК.</p>
+
+  <h4>Шаг 1. Подготовка пакета</h4>
+  <p>Создайте папку на сетевой шаре:</p>
+<pre><code>\\domain.local\SYSVOL\domain.local\scripts\Win11Defaults\
+├── Win11DefaultsCLI.exe
+├── profile.json
+└── deploy.bat</code></pre>
+
+  <p>Содержимое <code>deploy.bat</code>:</p>
+<pre><code>@echo off
+cd /d "%~dp0"
+
+:: Проверяем, отключён ли UCPD
+sc query ucpd | find "RUNNING" &gt;nul
+if %errorlevel%==0 (
+    echo [%date% %time%] UCPD активен, отключаем...
+    Win11DefaultsCLI.exe --disable-ucpd
+    shutdown /r /t 30 /c "Отключение UCPD. Перезагрузка через 30 секунд."
+    exit /b
+)
+
+:: Проверяем, применён ли профиль
+if not exist "C:\ProgramData\Win11DefaultsManager\applied.flag" (
+    echo [%date% %time%] Применяем профиль...
+    Win11DefaultsCLI.exe --engine sufta
+    echo. &gt; "C:\ProgramData\Win11DefaultsManager\applied.flag"
+    echo [%date% %time%] Профиль применён.
+) else (
+    echo [%date% %time%] Профиль уже применён, пропускаем.
+)</code></pre>
+
+  <h4>Шаг 2. Настройка GPO</h4>
+  <ol>
+    <li>Откройте Group Policy Management</li>
+    <li>Создайте новую GPO или отредактируйте существующую</li>
+    <li>Перейдите: <code>Computer Configuration → Policies → Windows Settings → Scripts (Startup/Shutdown)</code></li>
+    <li>Добавьте <code>deploy.bat</code> как <strong>Startup Script</strong></li>
+    <li>Убедитесь, что скрипт запускается от имени SYSTEM (по умолчанию)</li>
+  </ol>
+
+  <h4>Шаг 3. Применение</h4>
+  <ol>
+    <li>При следующей загрузке ПК: UCPD отключится → ПК перезагрузится</li>
+    <li>После перезагрузки профиль применится → создастся флаг</li>
+    <li>При следующих загрузках ничего не произойдёт (флаг есть)</li>
+  </ol>
+
+  <hr>
+
+  <h3>Сценарий 4: Развёртывание через Intune/SCCM</h3>
+  <p><strong>Цель:</strong> Применение через современные системы управления.</p>
+
+  <h4>Шаг 1. Создание пакета</h4>
+  <p>Создайте <code>.intunewin</code> пакет (Intune) или приложение (SCCM) со следующими файлами:</p>
+<pre><code>Win11DefaultsCLI.exe
+profile.json
+install.cmd</code></pre>
+
+  <p>Содержимое <code>install.cmd</code>:</p>
+<pre><code>@echo off
+cd /d "%~dp0"
+
+:: Применяем через политику (работает из системного контекста)
+Win11DefaultsCLI.exe --apply profile.json --engine policy
+
+:: Возвращаем код успеха
+exit /b 0</code></pre>
+
+  <h4>Шаг 2. Настройка Intune</h4>
+  <ol>
+    <li>Microsoft Intune → Apps → Add → Windows app (Win32)</li>
+    <li>Загрузите <code>.intunewin</code> пакет</li>
+    <li>Program install command: <code>install.cmd</code></li>
+    <li>Uninstall command: <code>Win11DefaultsCLI.exe --disable-policy</code></li>
+    <li>Detection rule: проверьте наличие файла <code>C:\ProgramData\Win11DefaultsManager\DefaultAssociations.xml</code></li>
+    <li>Assign to нужным группам устройств</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠️ Важно</div>
+    Из системного контекста (SYSTEM) нельзя писать в HKCU конкретного пользователя, поэтому используется движок <code>policy</code> (пишет в HKLM).
+  </div>
+
+  <hr>
+
+  <h3>Сценарий 5: Экспорт и импорт между разными ПК</h3>
+  <p><strong>Цель:</strong> Перенести настройки ассоциаций с одного ПК на другой.</p>
+  <ol>
+    <li>На исходном ПК: <code>Win11DefaultsCLI.exe --export C:\temp\my_profile.json</code></li>
+    <li>Перенесите файл на целевой ПК</li>
+    <li>На целевом ПК: <code>Win11DefaultsCLI.exe --apply C:\temp\my_profile.json</code></li>
+  </ol>
+  <div class="callout warning">
+    <div class="callout-title">⚠️ Ограничения</div>
+    Профиль содержит ProgID конкретных программ. Если на целевом ПК программа не установлена или имеет другую версию, ассоциации не применятся. Пути к exe в профиле информационные, на применение не влияют.
+  </div>
+</section>
+
+<section id="faq">
+  <h2>8. FAQ</h2>
+
+  <h3>Общие вопросы</h3>
+
+  <h4>В: Программа безопасна? Не сломает ли она Windows?</h4>
+  <p>О: Программа работает только с реестром пользователя (HKCU) или групповой политикой (HKLM). Она не модифицирует системные файлы. Все изменения обратимы:</p>
+  <ul>
+    <li>Ассоциации можно сбросить через «Параметры Windows»</li>
+    <li>UCPD можно восстановить кнопкой «Восстановить UCPD»</li>
+    <li>Резервные копии реестра сохраняются автоматически</li>
+  </ul>
+
+  <h4>В: Почему нужно отключать UCPD? Это не опасно?</h4>
+  <p>О: UCPD — защитный механизм от вредоносного ПО, которое меняет ассоциации без ведома пользователя. Отключая его, вы снижаете защиту. Рекомендуется:</p>
+  <ol>
+    <li>Отключить UCPD только на время настройки</li>
+    <li>Применить ассоциации</li>
+    <li>Восстановить UCPD</li>
+  </ol>
+
+  <h4>В: Можно ли использовать программу для UWP-приложений (из Microsoft Store)?</h4>
+  <p>О: Нет. UWP-приложения используют другой механизм ассоциаций (AppX), который не поддерживается данной утилитой. Для них используйте стандартные «Параметры Windows» → «Приложения» → «Приложения по умолчанию».</p>
+
+  <h4>В: Программа работает на Windows 10?</h4>
+  <p>О: Да, программа работает на Windows 10 (1809 и новее) и Windows 11. UCPD.sys присутствует в обеих системах.</p>
+
+  <h3>Технические вопросы</h3>
+
+  <h4>В: Что такое ProgID?</h4>
+  <p>О: ProgID (Programmatic Identifier) — строковый идентификатор программы в реестре Windows. Например:</p>
+  <ul>
+    <li><code>WinRAR</code> — для WinRAR</li>
+    <li><code>AIMP.AssocFile.MP3</code> — для AIMP (формат MP3)</li>
+    <li><code>Applications\firefox.exe</code> — для Firefox</li>
+  </ul>
+
+  <h4>В: Почему в колонке «Текущая программа» иногда написано «(не задано)», хотя в Windows ассоциация есть?</h4>
+  <p>О: Программа показывает только выбор <strong>текущего пользователя</strong> (из <code>HKCU\...\UserChoice</code>). Если ассоциация задана глобально для всех пользователей (через <code>HKCR\.ext</code>), программа считает её и применит поверх.</p>
+
+  <h4>В: SetUserFTA выдаёт ошибки при применении. Что делать?</h4>
+  <p>О: Проверьте:</p>
+  <ol>
+    <li>UCPD.sys отключён? (вкладка UCPD.sys → статус должен быть зелёным)</li>
+    <li>ПК был перезагружен после отключения UCPD?</li>
+    <li>SetUserFTA.exe встроен в exe? (проверьте сборку с <code>--add-data</code>)</li>
+  </ol>
+
+  <h4>В: Можно ли отключить UCPD навсегда?</h4>
+  <p>О: Технически да (Start: 4), но:</p>
+  <ul>
+    <li>Обновления Windows могут вернуть UCPD</li>
+    <li>Задача UCPD velocity может реактивировать драйвер</li>
+    <li>Рекомендуется восстанавливать UCPD после настройки</li>
+  </ul>
+
+  <h4>В: Почему политика перекрывает ручной выбор пользователя?</h4>
+  <p>О: Это особенность механизма DefaultAssociationsConfiguration. Windows применяет политику при каждом входе, перезаписывая пользовательские настройки. Это сделано для корпоративной среды, где нужно гарантировать одинаковые настройки.</p>
+
+  <h4>В: Можно ли применить профиль только для некоторых расширений?</h4>
+  <p>О: В GUI — да, снимите галочки с ненужных расширений и нажмите «Применить отмеченные». В CLI — отредактируйте <code>profile.json</code>, удалив ненужные записи из секции <code>apps</code>.</p>
+
+  <h3>Вопросы по развёртыванию</h3>
+
+  <h4>В: Как развернуть на 100+ ПК?</h4>
+  <p>О: Используйте сценарий 3 (GPO) или сценарий 4 (Intune/SCCM). Ручное развёртывание на таком количестве ПК нецелесообразно.</p>
+
+  <h4>В: Можно ли применять профиль из сетевого пути?</h4>
+  <p>О: Да, программа поддерживает UNC-пути:</p>
+<pre><code>Win11DefaultsCLI.exe --apply \\server\share\profile.json</code></pre>
+  <p>Убедитесь, что у пользователя есть права на чтение сетевой папки.</p>
+
+  <h4>В: Что делать, если на целевом ПК не установлены некоторые программы из профиля?</h4>
+  <p>О: Программа пропустит расширения, для которых не найден ProgID. В журнале будет сообщение:</p>
+<pre><code>пропуск .xyz: ProgID 'SomeApp.AssocFile.XYZ' не зарегистрирован</code></pre>
+
+  <h4>В: Как откатить изменения, применённые через политику?</h4>
+  <p>О: Запустите:</p>
+<pre><code>Win11DefaultsCLI.exe --disable-policy</code></pre>
+  <p>Или удалите файл <code>C:\ProgramData\Win11DefaultsManager\DefaultAssociations.xml</code> и запись в реестре <code>HKLM\SOFTWARE\Policies\Microsoft\Windows\System\DefaultAssociationsConfiguration</code>.</p>
+
+  <h3>Вопросы по сборке</h3>
+
+  <h4>В: Как собрать exe из исходного кода?</h4>
+  <ol>
+    <li>Установите Python 3.9+ и PyInstaller:
+<pre><code>pip install pyinstaller</code></pre>
+    </li>
+    <li>Скачайте SetUserFTA.exe с <a href="https://kolbi.cz/blog/2011/10/27/setuserfta-userchoice-hash-defeated-set-file-type-associations-per-user/" target="_blank">kolbi.cz</a></li>
+    <li>Положите SetUserFTA.exe рядом с <code>win11_defaults.py</code></li>
+    <li>Соберите GUI-версию:
+<pre><code>pyinstaller -F -w --uac-admin --add-data "SetUserFTA.exe;." --name Win11Defaults win11_defaults.py</code></pre>
+    </li>
+    <li>Соберите CLI-версию:
+<pre><code>pyinstaller -F --uac-admin --add-data "SetUserFTA.exe;." --name Win11DefaultsCLI win11_defaults.py</code></pre>
+    </li>
+  </ol>
+
+  <h4>В: Антивирус удаляет собранный exe. Что делать?</h4>
+  <p>О: PyInstaller + <code>--uac-admin</code> + работа с реестром = эвристика антивируса. Решения:</p>
+  <ul>
+    <li>Добавьте папку с exe в исключения антивируса</li>
+    <li>Подпишите код цифровой подписью (требуется сертификат)</li>
+    <li>Используйте <code>-D</code> вместо <code>-F</code> (создаёт папку вместо одного файла, реже детектируется)</li>
+  </ul>
+
+  <h4>В: Почему GUI-версия запускается долго (5–10 секунд)?</h4>
+  <p>О: Ключ <code>-F</code> упаковывает всё в один exe. При запуске PyInstaller распаковывает содержимое во временную папку (<code>%TEMP%\_MEIxxxxx</code>). Это нормально. Для ускорения используйте <code>-D</code> (создаёт папку с файлами).</p>
+
+  <h4>В: Как проверить, что собранный exe рабочий?</h4>
+  <ul class="checklist">
+    <li><code>python -m py_compile win11_defaults.py</code> — без ошибок</li>
+    <li><code>Win11Defaults.exe</code> — открывается GUI, список приложений заполнен</li>
+    <li><code>Win11DefaultsCLI.exe --help</code> — показывает справку</li>
+    <li><code>Win11DefaultsCLI.exe --export profile.json</code> — создаёт файл</li>
+    <li><code>Win11DefaultsCLI.exe</code> (без ключей) — применяет <code>profile.json</code> рядом</li>
+    <li>Вкладка UCPD.sys показывает <strong>зелёный/красный</strong> статус</li>
+    <li>Кнопка «По умолчанию» реально меняет ассоциацию (проверьте в Проводнике: правый клик → «Открыть с помощью»)</li>
+  </ul>
+</section>
+
+<section id="appendix-a">
+  <h2>Приложение А: Структура JSON-профиля</h2>
+<pre><code>{
+  "version": 1,
+  "created": "2026-11-25T14:30:00",
+  "user": "admin",
+  "computer": "PC001",
+  "apps": {
+    "AIMP": {
+      "exe": "C:\\Program Files (x86)\\AIMP\\AIMP.exe",
+      "exts": {
+        ".mp3": "AIMP.AssocFile.MP3",
+        ".flac": "AIMP.AssocFile.FLAC",
+        ".wav": "AIMP.AssocFile.WAV"
+      },
+      "protos": {}
+    },
+    "WinRAR": {
+      "exe": "C:\\Program Files\\WinRAR\\WinRAR.exe",
+      "exts": {
+        ".rar": "WinRAR",
+        ".zip": "WinRAR",
+        ".7z": "WinRAR"
+      },
+      "protos": {}
+    },
+    "Firefox": {
+      "exe": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+      "exts": {
+        ".html": "FirefoxHTML",
+        ".htm": "FirefoxHTML"
+      },
+      "protos": {
+        "http": "FirefoxURL",
+        "https": "FirefoxURL"
+      }
+    }
+  },
+  "ucpd": {
+    "start": 3,
+    "running": true,
+    "task": "Enabled"
+  },
+  "policy_xml_path": ""
+}</code></pre>
+
+  <h4>Поля</h4>
+  <table>
+    <thead><tr><th>Поле</th><th>Описание</th></tr></thead>
+    <tbody>
+      <tr><td><code>version</code></td><td>Версия формата профиля (текущая: 1)</td></tr>
+      <tr><td><code>created</code></td><td>Дата создания профиля</td></tr>
+      <tr><td><code>user</code> / <code>computer</code></td><td>Информационные поля (на применение не влияют)</td></tr>
+      <tr><td><code>apps</code></td><td>Список приложений с их расширениями и протоколами</td></tr>
+      <tr><td><code>ucpd</code></td><td>Состояние UCPD на момент экспорта (информационное)</td></tr>
+      <tr><td><code>policy_xml_path</code></td><td>Путь к XML политики (если использовался движок №2)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="appendix-b">
+  <h2>Приложение Б: Командная шпаргалка</h2>
+
+  <h3>Быстрые команды</h3>
+<pre><code># Справка
+Win11DefaultsCLI.exe --help
+
+# Экспорт профиля
+Win11DefaultsCLI.exe --export profile.json
+
+# Применение профиля (SetUserFTA)
+Win11DefaultsCLI.exe --apply profile.json
+
+# Применение профиля (политика)
+Win11DefaultsCLI.exe --apply profile.json --engine policy
+
+# Отключить UCPD + перезагрузка
+Win11DefaultsCLI.exe --disable-ucpd --reboot
+
+# Восстановить UCPD + перезагрузка
+Win11DefaultsCLI.exe --enable-ucpd --reboot
+
+# Снять политику
+Win11DefaultsCLI.exe --disable-policy
+
+# Применить profile.json из папки программы
+Win11DefaultsCLI.exe</code></pre>
+
+  <h3>Полные сценарии</h3>
+  <p><strong>Сценарий А: SetUserFTA (рекомендуется)</strong></p>
+<pre><code>Win11DefaultsCLI.exe --disable-ucpd --reboot
+:: после перезагрузки
+Win11DefaultsCLI.exe
+Win11DefaultsCLI.exe --enable-ucpd --reboot</code></pre>
+
+  <p><strong>Сценарий Б: Политика (быстро)</strong></p>
+<pre><code>Win11DefaultsCLI.exe --apply profile.json --engine policy
+shutdown /r /t 0</code></pre>
+</section>
+
+<section id="appendix-c">
+  <h2>Приложение В: Полезные ссылки</h2>
+  <ul>
+    <li><strong>SetUserFTA</strong> (автор Kolbi): <a href="https://kolbi.cz/blog/2011/10/27/setuserfta-userchoice-hash-defeated-set-file-type-associations-per-user/" target="_blank">kolbi.cz</a></li>
+    <li><strong>Microsoft Docs: DefaultAssociationsConfiguration</strong>: <a href="https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/customize-default-applications" target="_blank">docs.microsoft.com</a></li>
+    <li><strong>PsExec (Sysinternals)</strong>: <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec" target="_blank">docs.microsoft.com</a></li>
+    <li><strong>PyInstaller</strong>: <a href="https://www.pyinstaller.org/" target="_blank">pyinstaller.org</a></li>
+  </ul>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="container">
+    <p>Документация для <strong>Win11 Defaults Manager v2.2</strong></p>
+    <p>Обновлено: 25.11.2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
